@@ -1,0 +1,30 @@
+#include "../mmm.h"
+#include <iostream>
+#include <string>
+
+//v2
+using namespace std;
+// implement your mmm here
+void mmm(const int nrA, const int ncA, const int nrB, const int ncB,
+	const double *a, const double *b, double *c) {
+
+	//=========================================================
+
+	for (int i = 0; i < ncB; i++) {
+
+		for (int j = 0; j < nrB; j++) { 
+			
+			for (int k = 0; k < nrA; k++) { 
+				c[k*ncB + i] += a[k*ncA + j] * b[j*ncB + i];
+				/*cout << "test" << a[k*nrB + i] << "," << b[j*ncB + i] << endl;
+				cout << k*ncB + i << "---"<< c[k*ncB + i] <<endl;*/
+			}
+			
+			
+		}
+
+	}
+
+	
+	//=========================================================
+}
