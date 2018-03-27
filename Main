@@ -1,0 +1,85 @@
+#include <iostream>
+#include <string>
+#include "mmm.h"
+#include <fstream>
+
+using namespace std;
+// implement your main program here..ZZ
+int main() {
+	std::string input_filename, output_filename;
+	int nrA, ncA, nrB, ncB;
+	int num_floatingOp, num_memoryRe;
+
+	std::cout << "\nPlease input the input filename: "; 
+	std::cin >> input_filename;
+	std::cout << "\nPlease input the output filename: "; 
+	std::cin >> output_filename;
+	std::cout << "\ninput file: " << input_filename << std::endl;
+	std::cout << "\noutut file: " << output_filename << std::endl;
+
+	//==================================================
+
+	//資料夾開啟
+	std::ifstream fileInput;
+	fileInput.open(input_filename, ios::in);
+	if (!fileInput) {
+		cout << "File is fail" << endl;
+		system("pause");
+		return 0;
+	}
+
+	
+
+	//讀取行列資料存入變數
+	fileInput >> nrA >> nrB >> ncA >> ncB; 
+	//cout << nrA << ncA << nrB << ncB << endl;
+	
+	//讀取矩陣資料存入陣列
+	double *a = new double[nrA*ncA];
+	for (int i = 0; i < nrA*ncA; i++) {
+		fileInput >> a[i];
+		//cout << a[i] << endl;
+	}
+	double *b = new double[nrB*ncB];
+	for (int i = 0; i < nrB*ncB; i++) {
+		fileInput >> b[i];
+		//cout << b[i] << endl;
+	}
+	double *c = new double[nrA*ncB]{ 0 };
+
+	//呼叫mmm
+	mmm(nrA, ncA, nrB, ncB, a, b, c);
+
+	ofstream fileOutput(output_filename);
+
+	fileOutput << nrA  << ncA  << nrB << ncB  << endl;
+	for (int i = 0; i < nrA*ncA; i++) {
+		fileOutput << a[i] << " ";
+		if ((i+1) % ncA == 0)
+			fileOutput << endl;
+	}
+	for (int i = 0; i < nrB*ncB; i++) {
+		fileOutput << b[i] << endl;
+		
+	}
+	for (int i = 0; i < nrA*ncB; i++) {
+		fileOutput << c[i] << " ";
+		if ((i + 1) % ncB == 0)
+			fileOutput << endl;
+		
+	}
+
+
+	fileOutput << "number of floating-point operations : " << nrA*ncB*ncA*2 << endl;
+	fileOutput << " number of memory references : " << num_memoryRe << endl;
+
+
+	//記憶體釋放
+	delete[]a,b,c;
+	fileOutput.close();
+	//==================================================
+
+
+	system("pause");
+	return 0;
+}
